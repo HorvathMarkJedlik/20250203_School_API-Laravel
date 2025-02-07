@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\Rules\Password;
 
 class StoreStudentRequest extends FormRequest
 {
@@ -24,11 +24,12 @@ class StoreStudentRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:100',
-            'email' => 'email|unique',
+            'email' => 'email|unique:students,email',
             'phone' => 'nullable|string|max:20',
             'birthdate' => 'required|date',
             'card_id' => 'required|string|size:8',
             'password' => ['required','string','confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
+            'group_id' => 'required|exists:groups,id'
         ];
     }
 }
